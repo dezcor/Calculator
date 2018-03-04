@@ -40,17 +40,19 @@
 
         <Button
             android:id="@+id/btParentR"
-            android:layout_width="wrap_content"
+            android:layout_width="76dp"
             android:layout_height="wrap_content"
             android:text="(" />
+
         <Button
             android:id="@+id/btParentL"
-            android:layout_width="wrap_content"
+            android:layout_width="71dp"
             android:layout_height="wrap_content"
             android:text=")" />
+
         <Button
             android:id="@+id/btDel"
-            android:layout_width="wrap_content"
+            android:layout_width="76dp"
             android:layout_height="wrap_content"
             android:text="DEL" />
         <Button
@@ -67,7 +69,7 @@
 
         <Button
             android:id="@+id/btSiete"
-            android:layout_width="wrap_content"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:text="7" />
 
@@ -96,7 +98,7 @@
 
         <Button
             android:id="@+id/btCuatro"
-            android:layout_width="wrap_content"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:text="4" />
 
@@ -124,7 +126,7 @@
 
         <Button
             android:id="@+id/btUno"
-            android:layout_width="wrap_content"
+            android:layout_width="73dp"
             android:layout_height="wrap_content"
             android:text="1" />
 
@@ -152,18 +154,19 @@
 
         <Button
             android:id="@+id/btCero"
-            android:layout_width="wrap_content"
+            android:layout_width="73dp"
             android:layout_height="wrap_content"
             android:text="0" />
 
         <Button
             android:id="@+id/btPunto"
-            android:layout_width="wrap_content"
+            android:layout_width="62dp"
             android:layout_height="wrap_content"
             android:text="." />
+
         <Button
             android:id="@+id/btIgual"
-            android:layout_width="wrap_content"
+            android:layout_width="113dp"
             android:layout_height="wrap_content"
             android:text="=" />
         <Button
