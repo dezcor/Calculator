@@ -56,6 +56,9 @@ Java_com_example_dezcorjm_pruebasnk_MainActivity_stringFromJNI(
         str=e.what();
     }
 
+    if(str=="(" || str == ")" || str == " " )
+        return env->NewStringUTF("error");
+    //*************************************
     return env->NewStringUTF(str.c_str());
 
 }
@@ -96,11 +99,49 @@ bool Calculadora::tokenizar(std::string& str)
     const char* c;
     std::string token;
     std::string tokenA;
+    bool isfirst=true;
     for(c=str.c_str();*c!='\0';c++)
     {
         if( *c == ' ' || *c == '*' || *c == '/' || *c == '+' || *c == '-' || *c == '(' || *c == ')' ||  *c=='\t' || *c == '\n')
         {
             if(token.empty()==false)tokens.push_back(token);
+            else
+            {
+                if(isfirst==true)
+                {
+                    if(*c=='-')
+                    {
+                        token+=*c;
+                        isfirst=false;
+                        continue;
+                    }
+                    else if(*c== '+')
+                    {
+                        token+=*c;
+                        isfirst=false;
+                        continue;
+                    }
+                    isfirst=false;
+                }
+                else
+                {
+                    const char *aux = c - 1;
+                    if ((*aux == '*' || *aux == '+' || *aux == '/') &&*c == '-')
+                    {
+                        if( *aux == '+')
+                            token.pop_back();
+                        else token += *c;
+                        continue;
+                    }
+                    else if ((*aux == '*' || *aux == '-' || *aux == '/') &&*c == '+')
+                    {
+                        if( *aux == '-')
+                            continue;
+                        else token += *c;
+                        continue;
+                    }
+                }
+            }
             if(*c != ' ' && *c!='\n' && *c != '\t')
             {
                 tokens.push_back(tokenA=*c);

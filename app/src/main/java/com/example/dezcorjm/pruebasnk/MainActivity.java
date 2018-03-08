@@ -1,5 +1,6 @@
 package com.example.dezcorjm.pruebasnk;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -81,13 +82,16 @@ public class MainActivity extends AppCompatActivity implements android.view.View
         btIgual.setOnClickListener(this);
         // Example of a call to a native method
         tbxX = (EditText) findViewById(R.id.tbxX);
+        tbxX.setFocusableInTouchMode(false);
         // Example of a call to a native method
         tbxResult = (EditText) findViewById(R.id.tbxResult);
+        tbxResult.setFocusableInTouchMode(false);
     }
 
     @Override
     public void onClick(View view)
     {
+
         switch (view.getId())
         {
             case R.id.btNueve:
