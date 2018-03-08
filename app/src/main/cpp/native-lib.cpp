@@ -1,11 +1,10 @@
 #include <jni.h>
 #include <string>
 #include <iostream>
-#include <cstring>
 #include <cstdlib>
 #include <vector>
 #include <exception>
-
+#include <regex>
 class Calculadora
 {
 private:
@@ -55,9 +54,11 @@ Java_com_example_dezcorjm_pruebasnk_MainActivity_stringFromJNI(
     {
         str=e.what();
     }
-
-    if(str=="(" || str == ")" || str == " " )
+    std::regex Num("-?[0-9]+.?[0-9]*(e(\\+|\\-)?[0-9]*)?");
+    if(std::regex_match(str,Num)==false)
+    {
         return env->NewStringUTF("error");
+    }
     //*************************************
     return env->NewStringUTF(str.c_str());
 
@@ -126,14 +127,14 @@ bool Calculadora::tokenizar(std::string& str)
                 else
                 {
                     const char *aux = c - 1;
-                    if ((*aux == '*' || *aux == '+' || *aux == '/') &&*c == '-')
+                    if ((*aux == '*' || *aux == '+' || *aux == '/' || *aux == '(') && *c == '-')
                     {
                         if( *aux == '+')
                             token.pop_back();
                         else token += *c;
                         continue;
                     }
-                    else if ((*aux == '*' || *aux == '-' || *aux == '/') &&*c == '+')
+                    else if ((*aux == '*' || *aux == '-' || *aux == '/') && *c == '+')
                     {
                         if( *aux == '-')
                             continue;
