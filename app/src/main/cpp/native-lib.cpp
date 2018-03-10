@@ -44,7 +44,7 @@ Java_com_example_dezcorjm_pruebasnk_MainActivity_stringFromJNI(
     {
         str=e.what();
     }
-    std::regex Num("-?[0-9]+.?[0-9]*(e(\\+|\\-)?[0-9]*)?");
+    std::regex Num("-?[0-9]+.?[0-9]*(E(\\+|\\-)?[0-9]*)?");
     if(std::regex_match(str,Num)==false)
     {
         return env->NewStringUTF("error");
@@ -60,7 +60,6 @@ Calculadora::Calculadora(std::vector<std::string> &tokenP):tokens(tokenP)
 {
     parentesis = true;
     isDiviAndMult = true;
-    //mostrar();
     reducir();
 }
 
@@ -71,7 +70,6 @@ Calculadora::Calculadora(char *str)
     std::string str1(str);
     if(str1.empty()!=false)return;
     tokenizar(str1);
-    //mostrar();
     reducir();
 }
 
@@ -81,10 +79,9 @@ Calculadora::Calculadora(std::string& str)
     isDiviAndMult = true;
     if(str.empty()!=false)return;
     tokenizar(str);
-    //mostrar();
     reducir();
 }
-
+//tokeniza
 bool Calculadora::tokenizar(std::string& str)
 {
     const char* c;
@@ -147,16 +144,16 @@ bool Calculadora::tokenizar(std::string& str)
     if(token.empty()==false)tokens.push_back(token);
     return true;
 }
-
+//Busca los Tokens que indican operacion para realizar la operacion
 bool Calculadora::reducir()
 {
-    QuitParentresis();
-    if(MultAndDiv()==true) return reducir();
-    if(SumAndRes()==true) return reducir();
+    QuitParentresis();//realiza cualquier operacion que este dentro de un parentesis
+    if(MultAndDiv()==true) return reducir();//realiza las operaciones *,/
+    if(SumAndRes()==true) return reducir();//realiza las Sumas y restas
 
     return false;
 }
-
+//al realizar una operacion esta se recorre para reducir la operacion
 void Calculadora::recorrer(int i,double Operacion)
 {
     char str[100];
@@ -177,7 +174,7 @@ void Calculadora::recorrer(int i,double Operacion)
     }
     tokens.resize((int)tokens.size()-2);
 }
-
+//Busca realizar operaciones * y /
 bool Calculadora::MultAndDiv()
 {
     double Operacion=0;
@@ -198,10 +195,11 @@ bool Calculadora::MultAndDiv()
             return true;
         }
     }
+    //cuando se llega hasta este punto se considera que ya no hay mas tokens * y /
     isDiviAndMult=false;
     return false;
 }
-
+//Busca realizar operaciones + y -
 bool Calculadora::SumAndRes()
 {
     double Operacion = 0;
@@ -223,7 +221,7 @@ bool Calculadora::SumAndRes()
     return false;
 }
 
-
+//Busca las operaciones entre parentesis.
 void Calculadora::QuitParentresis()
 {
     int NumParetesis = 0;
@@ -260,15 +258,16 @@ void Calculadora::QuitParentresis()
     }
     parentesis = false;
 }
-
+//regresa el resultado
 std::string Calculadora::GetResult()
 {
     if(tokens.size()<1)return std::string("error");
     char str[100];
-    std::regex Num("-?[0-9]+.?[0-9]*(e(\\+|\\-)?[0-9]*)?");
+    std::regex Num("-?[0-9]+.?[0-9]*(E(\\+|\\-)?[0-9]*)?");
+    //comprueba que sea un numero valido.
     if(std::regex_match(tokens[0],Num))
     {
-        sprintf(str,"%.15g",atof(tokens[0].c_str()));
+        sprintf(str,"%.15G",atof(tokens[0].c_str()));
         tokens[0]=str;
     }
     return tokens[0];

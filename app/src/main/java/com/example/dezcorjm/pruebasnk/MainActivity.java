@@ -1,6 +1,5 @@
 package com.example.dezcorjm.pruebasnk;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -90,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements android.view.View
     @Override
     public void onClick(View view)
     {
-        char Mult=0;
-        int Nivel=2;
+        char Mult;
+        int Nivel;
         String Punto;
         switch (view.getId())
         {
@@ -136,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements android.view.View
                 getOperation();
                 break;
             case R.id.btPunto:
-                if(tbxX.getText().length()>0)
+                if(tbxX.getText().length()>0)//comprobar que se puede poner el punto.
                 {
                     Punto=tbxX.getText().toString();
                     Mult=Punto.charAt(Punto.length() - 1);
@@ -163,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements android.view.View
                             else if(Mult=='.')
                             {
                                 count++;
+                                break;
                             }
                         }
                         if(count==0)
@@ -177,7 +177,8 @@ public class MainActivity extends AppCompatActivity implements android.view.View
 
                 break;
             case R.id.btParentL:
-                if(IsParentesis()==true) {
+                if(IsParentesis()) //hay aprentesis abiertos
+                {
                     tbxX.getText().append(')');
                     getOperation();
                 }
@@ -186,10 +187,12 @@ public class MainActivity extends AppCompatActivity implements android.view.View
                 tbxX.getText().append('(');
                 break;
             case R.id.btMult:
-                if(tbxX.getText().length()>=1) {
+                if(tbxX.getText().length()>=1)
+                {
                     Nivel=(tbxX.getText().length()>1)?2:1;
                     Mult = tbxX.getText().charAt(tbxX.getText().length() - 1);
-                    if (Mult == '+' || Mult == '*' || Mult == '/' || Mult == '-') {
+                    if (Mult == '+' || Mult == '*' || Mult == '/' || Mult == '-')
+                    {
                         Mult = tbxX.getText().charAt(tbxX.getText().length() - Nivel);
                         if (Mult == '*' || Mult == '/')
                             tbxX.getText().delete(tbxX.getText().length() - Nivel, tbxX.getText().length());
@@ -201,10 +204,12 @@ public class MainActivity extends AppCompatActivity implements android.view.View
                 }
                 break;
             case R.id.btDiv:
-                if(tbxX.getText().length()>=1) {
+                if(tbxX.getText().length()>=1)
+                {
                     Nivel=(tbxX.getText().length()>1)?2:1;
                     Mult = tbxX.getText().charAt(tbxX.getText().length() - 1);
-                    if (Mult == '+' || Mult == '*' || Mult == '/' || Mult == '-') {
+                    if (Mult == '+' || Mult == '*' || Mult == '/' || Mult == '-')
+                    {
                         Mult = tbxX.getText().charAt(tbxX.getText().length() - Nivel);
                         if (Mult == '*' || Mult == '/')
                             tbxX.getText().delete(tbxX.getText().length() - Nivel, tbxX.getText().length());
@@ -216,10 +221,10 @@ public class MainActivity extends AppCompatActivity implements android.view.View
                 }
                 break;
             case R.id.btResta:
-                if(tbxX.getText().length()>0)
+                if(tbxX.getText().length()>0)//puede estar al principio
                 {
                     Mult=tbxX.getText().charAt(tbxX.getText().length()-1);
-                    if(Mult=='+'  || Mult == '-')
+                    if(Mult=='+'  || Mult == '-')//si era suma quitar caracter.
                     {
                         tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
                     }
@@ -227,14 +232,16 @@ public class MainActivity extends AppCompatActivity implements android.view.View
                 tbxX.getText().append('-');
                 break;
             case R.id.btSum:
-                if(tbxX.getText().length()>=1) {
-                    Nivel=(tbxX.getText().length()>1)?2:1;
-                    Mult = tbxX.getText().charAt(tbxX.getText().length() - 1);
-                    if (Mult == '+' || Mult == '*' || Mult == '/' || Mult == '-') {
+                if(tbxX.getText().length()>=1) //Comprueba que almenos hay un algo para sumar
+                {
+                    Nivel=(tbxX.getText().length()>1)?2:1;//posiblemente no sea numero y hay que cambiar la operacion o quitarla.
+                    Mult = tbxX.getText().charAt(tbxX.getText().length() - 1);//para comprobar que el ultimo caracter es valido
+                    if (Mult == '+' || Mult == '*' || Mult == '/' || Mult == '-')
+                    {
                         Mult = tbxX.getText().charAt(tbxX.getText().length() - Nivel);
-                        if (Mult == '*' || Mult == '/')
+                        if (Mult == '*' || Mult == '/')//si fue - entonces se deben eliminar 2 caracteres
                             tbxX.getText().delete(tbxX.getText().length() - Nivel, tbxX.getText().length());
-                        else
+                        else //solo se elimina un caracter
                             tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
                     }
                     if(tbxX.getText().length()>=1 && Mult != '(')
@@ -256,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements android.view.View
                 tbxX.getText().clear();
                 break;
 
-        };
+        }
     }
     /**
      * A native method that is implemented by the 'native-lib' native library,
@@ -267,9 +274,9 @@ public class MainActivity extends AppCompatActivity implements android.view.View
     public boolean IsParentesis()
     {
         int cout = NumParentesis();
-        return (cout<=0)?false:true;
+        return (cout>0);
     }
-
+    //cuenta el numero de parentesis abiertos
     public int NumParentesis()
     {
         String str=tbxX.getText().toString();
@@ -288,6 +295,7 @@ public class MainActivity extends AppCompatActivity implements android.view.View
         return cout;
     }
 
+    //regresa la operacion comprobando cuantos parentesis estan abiertos para cerrarlos temporalmente
     public void getOperation()
     {
         int N = NumParentesis();
