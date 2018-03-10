@@ -287,6 +287,7 @@ public class MainActivity extends AppCompatActivity implements android.view.View
         }
         return cout;
     }
+
     public void getOperation()
     {
         int N = NumParentesis();

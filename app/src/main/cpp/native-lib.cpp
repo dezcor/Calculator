@@ -20,18 +20,8 @@ public:
     Calculadora(char *str);
     Calculadora(std::string& str);
     bool reducir();
-    void mostrar()
-    {
-        for(std::string i: tokens)
-            std::cout << i ;
-        std::cout << std::endl;
-    }
     void recorrer(int i,double Operacion);
-    std::string GetResult()
-    {
-        if(tokens.size()<1)return std::string("error");
-        return tokens[0];
-    }
+    std::string GetResult();
     bool tokenizar(std::string& token);
 };
 
@@ -169,8 +159,8 @@ bool Calculadora::reducir()
 
 void Calculadora::recorrer(int i,double Operacion)
 {
-    char str[20];
-    sprintf(str,"%g",Operacion);
+    char str[100];
+    sprintf(str,"%.20f",Operacion);
     tokens[i-1]=str;
     if((i+2)<(int)tokens.size())
         tokens[i]=tokens[i+2];
@@ -269,4 +259,17 @@ void Calculadora::QuitParentresis()
         }
     }
     parentesis = false;
+}
+
+std::string Calculadora::GetResult()
+{
+    if(tokens.size()<1)return std::string("error");
+    char str[100];
+    std::regex Num("-?[0-9]+.?[0-9]*(e(\\+|\\-)?[0-9]*)?");
+    if(std::regex_match(tokens[0],Num))
+    {
+        sprintf(str,"%.15g",atof(tokens[0].c_str()));
+        tokens[0]=str;
+    }
+    return tokens[0];
 }
