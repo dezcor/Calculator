@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements android.view.View
     public void onClick(View view)
     {
         char Mult=0;
+        int Nivel=2;
         String Punto;
         switch (view.getId())
         {
@@ -186,29 +187,31 @@ public class MainActivity extends AppCompatActivity implements android.view.View
                 break;
             case R.id.btMult:
                 if(tbxX.getText().length()>=1) {
+                    Nivel=(tbxX.getText().length()>1)?2:1;
                     Mult = tbxX.getText().charAt(tbxX.getText().length() - 1);
                     if (Mult == '+' || Mult == '*' || Mult == '/' || Mult == '-') {
-                        Mult = tbxX.getText().charAt(tbxX.getText().length() - 2);
+                        Mult = tbxX.getText().charAt(tbxX.getText().length() - Nivel);
                         if (Mult == '*' || Mult == '/')
-                            tbxX.getText().delete(tbxX.getText().length() - 2, tbxX.getText().length());
+                            tbxX.getText().delete(tbxX.getText().length() - Nivel, tbxX.getText().length());
                         else
                             tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
                     }
-                    if(Mult != '(')
+                    if(tbxX.getText().length()>=1 && Mult != '(')
                     tbxX.getText().append('*');
                 }
                 break;
             case R.id.btDiv:
                 if(tbxX.getText().length()>=1) {
+                    Nivel=(tbxX.getText().length()>1)?2:1;
                     Mult = tbxX.getText().charAt(tbxX.getText().length() - 1);
                     if (Mult == '+' || Mult == '*' || Mult == '/' || Mult == '-') {
-                        Mult = tbxX.getText().charAt(tbxX.getText().length() - 2);
+                        Mult = tbxX.getText().charAt(tbxX.getText().length() - Nivel);
                         if (Mult == '*' || Mult == '/')
-                            tbxX.getText().delete(tbxX.getText().length() - 2, tbxX.getText().length());
+                            tbxX.getText().delete(tbxX.getText().length() - Nivel, tbxX.getText().length());
                         else
                             tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
                     }
-                    if(Mult != '(')
+                    if(tbxX.getText().length()>=1 && Mult != '(')
                     tbxX.getText().append('/');
                 }
                 break;
@@ -225,15 +228,16 @@ public class MainActivity extends AppCompatActivity implements android.view.View
                 break;
             case R.id.btSum:
                 if(tbxX.getText().length()>=1) {
+                    Nivel=(tbxX.getText().length()>1)?2:1;
                     Mult = tbxX.getText().charAt(tbxX.getText().length() - 1);
                     if (Mult == '+' || Mult == '*' || Mult == '/' || Mult == '-') {
-                        Mult = tbxX.getText().charAt(tbxX.getText().length() - 2);
+                        Mult = tbxX.getText().charAt(tbxX.getText().length() - Nivel);
                         if (Mult == '*' || Mult == '/')
-                            tbxX.getText().delete(tbxX.getText().length() - 2, tbxX.getText().length());
+                            tbxX.getText().delete(tbxX.getText().length() - Nivel, tbxX.getText().length());
                         else
                             tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
                     }
-                    if(Mult != '(')
+                    if(tbxX.getText().length()>=1 && Mult != '(')
                     tbxX.getText().append('+');
                 }
                 break;
