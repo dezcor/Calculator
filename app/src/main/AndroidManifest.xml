@@ -10,6 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>--><!--Comenta esto para que la otra actividad sea la Main-->
+        </activity>
+        <activity android:name=".SimpleCalc">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
