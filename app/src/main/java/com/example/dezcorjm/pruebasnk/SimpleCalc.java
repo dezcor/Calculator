@@ -10,6 +10,11 @@ import java.util.Locale;
 
 public class SimpleCalc extends AppCompatActivity implements android.view.View.OnClickListener  {
 
+    // Used to load the 'native-lib' library on application startup.
+    static {
+        System.loadLibrary("native-lib");
+    }
+
     Button btNueve;
     Button btOcho;
     Button btSiete;
@@ -180,42 +185,119 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
 
                 break;
             case R.id.btParentL:
-                //Agregar código
+                huboOper = false;
+                if(IsParentesis())
+                {
+                    tbxX.setText(stringFromJNI(tbxX.getText().toString()+')'));
+
+                }
                 break;
             case R.id.btParentR:
+                huboOper = false;
+                if(NumParentesis()<=0)
+                {
+                    tbxX.getText().append('(');
+                }
+                //Agregar código
                 //Agregar código
                 break;
             case R.id.btMult:
                 if(tbxX.getText().length()>=1)
                 {
-                    arg2 = Double.parseDouble(tbxX.getText().toString());
-                    operacion = 3;
-                    Solve();
+                    if(IsParentesis())
+                    {
+                        Nivel=(tbxX.getText().length()>1)?2:1;
+                        Mult = tbxX.getText().charAt(tbxX.getText().length() - 1);
+                        if (Mult == '+' || Mult == '*' || Mult == '/' || Mult == '-')
+                        {
+                            Mult = tbxX.getText().charAt(tbxX.getText().length() - Nivel);
+                            if (Mult == '*' || Mult == '/')
+                                tbxX.getText().delete(tbxX.getText().length() - Nivel, tbxX.getText().length());
+                            else
+                                tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
+                        }
+                        if(tbxX.getText().length()>=1 && Mult != '(')
+                            tbxX.getText().append('*');
+                    }
+                    else
+                    {
+                        arg2 = Double.parseDouble(tbxX.getText().toString());
+                        operacion = 3;
+                        Solve();
+                    }
                 }
                 break;
             case R.id.btDiv:
                 if(tbxX.getText().length()>=1)
                 {
-                    arg2 = Double.parseDouble(tbxX.getText().toString());
-                    operacion = 4;
-                    Solve();
+                    if(IsParentesis())
+                    {
+                        Nivel=(tbxX.getText().length()>1)?2:1;
+                        Mult = tbxX.getText().charAt(tbxX.getText().length() - 1);
+                        if (Mult == '+' || Mult == '*' || Mult == '/' || Mult == '-')
+                        {
+                            Mult = tbxX.getText().charAt(tbxX.getText().length() - Nivel);
+                            if (Mult == '*' || Mult == '/')
+                                tbxX.getText().delete(tbxX.getText().length() - Nivel, tbxX.getText().length());
+                            else
+                                tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
+                        }
+                        if(tbxX.getText().length()>=1 && Mult != '(')
+                            tbxX.getText().append('/');
+                    }
+                    else
+                    {
+                        arg2 = Double.parseDouble(tbxX.getText().toString());
+                        operacion = 4;
+                        Solve();
+                    }
                 }
                 break;
             case R.id.btResta:
                 if(tbxX.getText().length()>0)//puede estar al principio
                 {
-                    arg2 = Double.parseDouble(tbxX.getText().toString());
-                    operacion = 2;
-                    Solve();
+                    if(IsParentesis())
+                    {
+                        Mult=tbxX.getText().charAt(tbxX.getText().length()-1);
+                        if(Mult=='+'  || Mult == '-')//si era suma quitar caracter.
+                        {
+                            if(tbxX.getText().length()>0)
+                            tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
+                        }
+                        tbxX.getText().append('-');
+                    }
+                    else
+                    {
+                        arg2 = Double.parseDouble(tbxX.getText().toString());
+                        operacion = 2;
+                        Solve();
+                    }
                 }
-                tbxX.getText().append('-');
                 break;
             case R.id.btSum:
                 if(tbxX.getText().length()>=1) //Comprueba que almenos hay un algo para sumar
                 {
-                    arg2 = Double.parseDouble(tbxX.getText().toString());
-                    operacion = 1;
-                    Solve();
+                    if(IsParentesis())
+                    {
+                        Nivel=(tbxX.getText().length()>1)?2:1;//posiblemente no sea numero y hay que cambiar la operacion o quitarla.
+                        Mult = tbxX.getText().charAt(tbxX.getText().length() - 1);//para comprobar que el ultimo caracter es valido
+                        if (Mult == '+' || Mult == '*' || Mult == '/' || Mult == '-')
+                        {
+                            Mult = tbxX.getText().charAt(tbxX.getText().length() - Nivel);
+                            if (Mult == '*' || Mult == '/')//si fue - entonces se deben eliminar 2 caracteres
+                                tbxX.getText().delete(tbxX.getText().length() - Nivel, tbxX.getText().length());
+                            else //solo se elimina un caracter
+                                tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
+                        }
+                        if(tbxX.getText().length()>=1 && Mult != '(')
+                            tbxX.getText().append('+');
+                    }
+                    else
+                    {
+                        arg2 = Double.parseDouble(tbxX.getText().toString());
+                        operacion = 1;
+                        Solve();
+                    }
                 }
                 break;
             case R.id.btDel:
@@ -235,6 +317,8 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
 
         }
     }
+
+    public native String stringFromJNI(String str);
 
     void Solve(){
         if(isFirst) {
@@ -258,4 +342,30 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
         tbxX.setText(s);
         huboOper = true;
     }
+
+    public boolean IsParentesis()
+    {
+        int cout = NumParentesis();
+        return (cout>0);
+    }
+    //cuenta el numero de parentesis abiertos
+    public int NumParentesis()
+    {
+        String str=tbxX.getText().toString();
+        int cout=0;
+        for(int i =0; i<str.length();i++)
+        {
+            if(str.charAt(i)=='(')
+            {
+                cout++;
+            }
+            else if(str.charAt(i)==')')
+            {
+                cout--;
+            }
+        }
+        return cout;
+    }
+
 }
+

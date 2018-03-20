@@ -261,6 +261,8 @@ public class MainActivity extends AppCompatActivity implements android.view.View
                 break;
             case R.id.btIgual:
                 tbxX.getText().clear();
+                tbxX.setText(tbxResult.getText());
+                tbxResult.setText("0");
                 break;
 
         }
@@ -304,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements android.view.View
         {
             str+= ")";
         }
-        if(tbxX.getText().toString().isEmpty()==false)
+        if(tbxX.getText().toString().isEmpty())
             tbxResult.setText(stringFromJNI(tbxX.getText().toString()+str));
         else
             tbxResult.setText("0");

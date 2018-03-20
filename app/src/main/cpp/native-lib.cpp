@@ -272,3 +272,24 @@ std::string Calculadora::GetResult()
     }
     return tokens[0];
 }
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_example_dezcorjm_pruebasnk_SimpleCalc_stringFromJNI(JNIEnv *env, jobject instance,
+                                                             jstring str_) {
+        jboolean isTrue = true;
+        std::string str = env->GetStringUTFChars(str_, &isTrue);
+        try {
+            Calculadora S(str);
+            str = S.GetResult().c_str();
+        }
+        catch (std::exception e) {
+            str = e.what();
+        }
+        std::regex Num("-?[0-9]+.?[0-9]*(E(\\+|\\-)?[0-9]*)?");
+        if (std::regex_match(str, Num) == false) {
+            return env->NewStringUTF("error");
+        }
+        //*************************************
+        return env->NewStringUTF(str.c_str());
+    }
