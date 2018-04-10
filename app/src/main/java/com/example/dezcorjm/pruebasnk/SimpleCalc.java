@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import java.util.Locale;
 
@@ -201,7 +203,10 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                 if(IsParentesis())
                 {
                     tbxX.setText(stringFromJNI(tbxX.getText().toString()+')'));
-
+                    if(tbxX.getText().toString().equals("Error")) {
+                        huboOper = true;
+                        isFirst = true;
+                    }
                 }
                 break;
             case R.id.btParentR:
@@ -323,9 +328,17 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                 isFirst = true;
                 break;
             case R.id.btIgual:
-                arg2 = Double.parseDouble(tbxX.getText().toString());
-                setOperacion(0);
-                Solve();
+                if(isNumber(tbxX.getText().toString())) {
+                    arg2 = Double.parseDouble(tbxX.getText().toString());
+
+                    setOperacion(0);
+                    Solve();
+                }
+                else
+                {
+                    tbxX.setText("Error");
+                    huboOper = true;
+                }
                 isFirst = true;
                 break;
 
@@ -384,5 +397,18 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
         operacion[1] = oper;
     }
 
+
+    public Boolean isNumber(String str)
+    {
+        // String to be scanned to find the pattern.
+        String pattern = "-?[0-9]+.?[0-9]*(E(\\+|-)?[0-9]*)?";
+
+        // Create a Pattern object
+        Pattern r = Pattern.compile(pattern);
+
+        // Now create matcher object.
+        Matcher m = r.matcher(str);
+        return m.matches();
+    }
 }
 

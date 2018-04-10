@@ -261,7 +261,7 @@ void Calculadora::QuitParentresis()
 //regresa el resultado
 std::string Calculadora::GetResult()
 {
-    if(tokens.size()<1)return std::string("error");
+    if(tokens.size()<1)return std::string("Error");
     char str[100];
     std::regex Num("-?[0-9]+.?[0-9]*(E(\\+|\\-)?[0-9]*)?");
     //comprueba que sea un numero valido.
@@ -277,7 +277,7 @@ extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_example_dezcorjm_pruebasnk_SimpleCalc_stringFromJNI(JNIEnv *env, jobject instance,
                                                              jstring str_) {
-        jboolean isTrue = true;
+        jboolean isTrue = (jboolean) true;
         std::string str = env->GetStringUTFChars(str_, &isTrue);
         try {
             Calculadora S(str);
@@ -287,8 +287,8 @@ Java_com_example_dezcorjm_pruebasnk_SimpleCalc_stringFromJNI(JNIEnv *env, jobjec
             str = e.what();
         }
         std::regex Num("-?[0-9]+.?[0-9]*(E(\\+|\\-)?[0-9]*)?");
-        if (std::regex_match(str, Num) == false) {
-            return env->NewStringUTF("error");
+        if (!std::regex_match(str, Num)) {
+            return env->NewStringUTF("Error");
         }
         //*************************************
         return env->NewStringUTF(str.c_str());
