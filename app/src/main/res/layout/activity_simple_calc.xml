@@ -23,11 +23,14 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:gravity="center_vertical|end"
-            android:inputType="none"
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
+            android:inputType="none"
             android:selectAllOnFocus="true"
             android:textSize="26sp" />
+
+        <!--android:selectAllOnFocus="true"
+        android:inputType="none"-->
     </LinearLayout>
 
     <LinearLayout

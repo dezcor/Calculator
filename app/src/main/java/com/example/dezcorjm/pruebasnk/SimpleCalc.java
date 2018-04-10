@@ -216,11 +216,10 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                 {
                     tbxX.getText().append('(');
                 }
-                //Agregar código
-                //Agregar código
                 break;
             case R.id.btMult:
-                if(tbxX.getText().length()>=1)
+                if(isNumber(tbxX.getText().toString()))
+                //if(tbxX.getText().length()>=1)
                 {
                     if(IsParentesis())
                     {
@@ -246,7 +245,8 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                 }
                 break;
             case R.id.btDiv:
-                if(tbxX.getText().length()>=1)
+                if (isNumber(tbxX.getText().toString()))
+                //if(tbxX.getText().length()>=1)
                 {
                     if(IsParentesis())
                     {
@@ -272,7 +272,8 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                 }
                 break;
             case R.id.btResta:
-                if(tbxX.getText().length()>0)//puede estar al principio
+                if (isNumber(tbxX.getText().toString()))
+                //if(tbxX.getText().length()>0)//puede estar al principio
                 {
                     if(IsParentesis())
                     {
@@ -293,7 +294,8 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                 }
                 break;
             case R.id.btSum:
-                if(tbxX.getText().length()>=1) //Comprueba que almenos hay un algo para sumar
+                if(isNumber(tbxX.getText().toString()))
+                //if(tbxX.getText().length()>=1) //Comprueba que almenos hay un algo para sumar
                 {
                     if(IsParentesis())
                     {
@@ -336,7 +338,7 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                 }
                 else
                 {
-                    tbxX.setText("Error");
+                    tbxX.setText("Syntax Error");
                     huboOper = true;
                 }
                 isFirst = true;
