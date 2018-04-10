@@ -39,7 +39,7 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
 
     double arg1, arg2, ans;
     boolean isFirst, huboOper;
-    int operacion; //1->suma,2->resta,3->mult,4->div,5->porcent
+    int[] operacion = new int[2]; //1->suma,2->resta,3->mult,4->div
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,50 +99,61 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
         char Mult;
         int Nivel;
         String Punto;
-        if(huboOper) tbxX.setText("");
+
         switch (view.getId())
         {
             case R.id.btNueve:
+                if(huboOper) tbxX.setText("");
                 tbxX.getText().append('9');
                 huboOper = false;
                 break;
             case R.id.btOcho:
+                if(huboOper) tbxX.setText("");
                 tbxX.getText().append('8');
                 huboOper = false;
                 break;
             case R.id.btSiete:
+                if(huboOper) tbxX.setText("");
                 tbxX.getText().append('7');
                 huboOper = false;
                 break;
             case R.id.btSeis:
+                if(huboOper) tbxX.setText("");
                 tbxX.getText().append('6');
                 huboOper = false;
                 break;
             case R.id.btSinco:
+                if(huboOper) tbxX.setText("");
                 tbxX.getText().append('5');
                 huboOper = false;
                 break;
             case R.id.btCuatro:
+                if(huboOper) tbxX.setText("");
                 tbxX.getText().append('4');
                 huboOper = false;
                 break;
             case R.id.btTres:
+                if(huboOper) tbxX.setText("");
                 tbxX.getText().append('3');
                 huboOper = false;
                 break;
             case R.id.btDos:
+                if(huboOper) tbxX.setText("");
                 tbxX.getText().append('2');
                 huboOper = false;
                 break;
             case R.id.btUno:
+                if(huboOper) tbxX.setText("");
                 tbxX.getText().append('1');
                 huboOper = false;
                 break;
             case R.id.btCero:
+                if(huboOper) tbxX.setText("");
                 tbxX.getText().append('0');
                 huboOper = false;
                 break;
             case R.id.btPunto:
+                if(huboOper) tbxX.setText("");
                 if(tbxX.getText().length()>0)//comprobar que se puede poner el punto.
                 {
                     Punto=tbxX.getText().toString();
@@ -185,6 +196,7 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
 
                 break;
             case R.id.btParentL:
+                if(huboOper) tbxX.setText("");
                 huboOper = false;
                 if(IsParentesis())
                 {
@@ -193,6 +205,7 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                 }
                 break;
             case R.id.btParentR:
+                if(huboOper) tbxX.setText("");
                 huboOper = false;
                 if(NumParentesis()<=0)
                 {
@@ -222,7 +235,7 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                     else
                     {
                         arg2 = Double.parseDouble(tbxX.getText().toString());
-                        operacion = 3;
+                        setOperacion(3);
                         Solve();
                     }
                 }
@@ -248,7 +261,7 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                     else
                     {
                         arg2 = Double.parseDouble(tbxX.getText().toString());
-                        operacion = 4;
+                        setOperacion(4);
                         Solve();
                     }
                 }
@@ -269,7 +282,7 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                     else
                     {
                         arg2 = Double.parseDouble(tbxX.getText().toString());
-                        operacion = 2;
+                        setOperacion(2);
                         Solve();
                     }
                 }
@@ -295,7 +308,7 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                     else
                     {
                         arg2 = Double.parseDouble(tbxX.getText().toString());
-                        operacion = 1;
+                        setOperacion(1);
                         Solve();
                     }
                 }
@@ -311,6 +324,7 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                 break;
             case R.id.btIgual:
                 arg2 = Double.parseDouble(tbxX.getText().toString());
+                setOperacion(0);
                 Solve();
                 isFirst = true;
                 break;
@@ -325,16 +339,14 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
             ans = arg2;
             isFirst = false;
         }else{
-            if (operacion == 1) {
+            if (operacion[0] == 1) {
                 ans = arg1 + arg2;
-            } else if (operacion == 2) {
+            } else if (operacion[0] == 2) {
                 ans = arg1 - arg2;
-            } else if (operacion == 3) {
+            } else if (operacion[0] == 3) {
                 ans = arg1 * arg2;
-            } else if (operacion == 4) {
+            } else if (operacion[0] == 4) {
                 ans = arg1 / arg2;
-            } else if (operacion == 5) {
-                //Falta código
             }
         }
         arg1 = ans;
@@ -365,6 +377,11 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
             }
         }
         return cout;
+    }
+
+    public void setOperacion(int oper){
+        operacion[0] = operacion[1];
+        operacion[1] = oper;
     }
 
 }
