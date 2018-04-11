@@ -90,7 +90,6 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
         // Example of a call to a native method
         tbxX =  findViewById(R.id.tbxX);
         tbxX.setFocusableInTouchMode(false);
-
         isFirst = true;
         huboOper = true;
     }
@@ -101,7 +100,6 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
         char Mult;
         int Nivel;
         String Punto;
-
         switch (view.getId())
         {
             case R.id.btNueve:
@@ -218,8 +216,7 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                 }
                 break;
             case R.id.btMult:
-                if(isNumber(tbxX.getText().toString()))
-                //if(tbxX.getText().length()>=1)
+                if(tbxX.getText().length()>=1)
                 {
                     if(IsParentesis())
                     {
@@ -238,15 +235,22 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                     }
                     else
                     {
-                        arg2 = Double.parseDouble(tbxX.getText().toString());
-                        setOperacion(3);
-                        Solve();
+                        if(isNumber(tbxX.getText().toString())) {
+                            arg2 = Double.parseDouble(tbxX.getText().toString());
+                            setOperacion(3);
+                            Solve();
+                        }
+                        else
+                        {
+                            tbxX.setText("Syntax Error");
+                            huboOper = true;
+                            isFirst = true;
+                        }
                     }
                 }
                 break;
             case R.id.btDiv:
-                if (isNumber(tbxX.getText().toString()))
-                //if(tbxX.getText().length()>=1)
+                if(tbxX.getText().length()>=1)
                 {
                     if(IsParentesis())
                     {
@@ -265,15 +269,22 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                     }
                     else
                     {
-                        arg2 = Double.parseDouble(tbxX.getText().toString());
-                        setOperacion(4);
-                        Solve();
+                        if(isNumber(tbxX.getText().toString())) {
+                            arg2 = Double.parseDouble(tbxX.getText().toString());
+                            setOperacion(4);
+                            Solve();
+                        }
+                        else
+                        {
+                            tbxX.setText("Syntax Error");
+                            huboOper = true;
+                            isFirst = true;
+                        }
                     }
                 }
                 break;
             case R.id.btResta:
-                if (isNumber(tbxX.getText().toString()))
-                //if(tbxX.getText().length()>0)//puede estar al principio
+                if(tbxX.getText().length()>0)//puede estar al principio
                 {
                     if(IsParentesis())
                     {
@@ -287,15 +298,22 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                     }
                     else
                     {
-                        arg2 = Double.parseDouble(tbxX.getText().toString());
-                        setOperacion(2);
-                        Solve();
+                        if(isNumber(tbxX.getText().toString())) {
+                            arg2 = Double.parseDouble(tbxX.getText().toString());
+                            setOperacion(2);
+                            Solve();
+                        }
+                        else
+                        {
+                            tbxX.setText("Syntax Error");
+                            huboOper = true;
+                            isFirst = true;
+                        }
                     }
                 }
                 break;
             case R.id.btSum:
-                if(isNumber(tbxX.getText().toString()))
-                //if(tbxX.getText().length()>=1) //Comprueba que almenos hay un algo para sumar
+                if(tbxX.getText().length()>=1) //Comprueba que almenos hay un algo para sumar
                 {
                     if(IsParentesis())
                     {
@@ -314,9 +332,17 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                     }
                     else
                     {
-                        arg2 = Double.parseDouble(tbxX.getText().toString());
-                        setOperacion(1);
-                        Solve();
+                        if(isNumber(tbxX.getText().toString())) {
+                            arg2 = Double.parseDouble(tbxX.getText().toString());
+                            setOperacion(1);
+                            Solve();
+                        }
+                        else
+                        {
+                            tbxX.setText("Syntax Error");
+                            huboOper = true;
+                            isFirst = true;
+                        }
                     }
                 }
                 break;
