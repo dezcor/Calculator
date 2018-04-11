@@ -39,7 +39,7 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
     Button btIgual;
     EditText tbxX;
 
-    double arg1, arg2, ans;
+    Double arg1, arg2, ans;
     boolean isFirst, huboOper;
     int[] operacion = new int[2]; //1->suma,2->resta,3->mult,4->div
 
@@ -401,9 +401,16 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                 ans = arg1 / arg2;
             }
         }
-        arg1 = ans;
-        String s = String.format(Locale.getDefault(),"%.2f",ans);
-        tbxX.setText(s);
+        if(ans < Double.MAX_VALUE) {
+            arg1 = ans;
+            String s = String.format(Locale.getDefault(), "%.2f", ans);
+            tbxX.setText(s);
+        }
+        else
+        {
+            arg1 = 0.0;
+            tbxX.setText("Overflow");
+        }
         huboOper = true;
     }
 
