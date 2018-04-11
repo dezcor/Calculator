@@ -89,7 +89,8 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
         btIgual.setOnClickListener(this);
         // Example of a call to a native method
         tbxX =  findViewById(R.id.tbxX);
-        tbxX.setFocusableInTouchMode(false);
+        //tbxX.setFocusableInTouchMode(false);
+        tbxX.setKeyListener(null);
         isFirst = true;
         huboOper = true;
     }
@@ -348,7 +349,17 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                 break;
             case R.id.btDel:
                 if(tbxX.getText().length()>0) {
-                    tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
+                    //Get Selected text
+                    int startSelection = tbxX.getSelectionStart();
+                    int endSelection = tbxX.getSelectionEnd();
+
+                    String text = tbxX.getText().toString().substring(startSelection, endSelection);
+                    if(text.isEmpty()) {
+                        tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
+                    }
+                    else {
+                        tbxX.getText().delete(startSelection, endSelection);
+                    }
                 }
                 break;
             case R.id.btDelAll:
