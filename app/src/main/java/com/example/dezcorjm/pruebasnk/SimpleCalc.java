@@ -10,6 +10,13 @@ import java.util.regex.Pattern;
 
 import java.util.Locale;
 
+/**
+ * @class SimpleCalc
+ * @brief Actividad principal de la aplicación
+ *
+ * Aquí se reciben todas las entradas y se muestran las salidas.
+ */
+
 public class SimpleCalc extends AppCompatActivity implements android.view.View.OnClickListener  {
 
     // Used to load the 'native-lib' library on application startup.
@@ -43,6 +50,10 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
     boolean isFirst, huboOper;
     int[] operacion = new int[2]; //1->suma,2->resta,3->mult,4->div
 
+    /**
+     * @brief Crea y configura la actividad principal
+     * @param savedInstanceState Configuración guardada si no es la primera vez que se crea
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +106,10 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
         huboOper = true;
     }
 
+    /**
+     * @brief Da servicio a todos los clicks
+     * @param view Elemento que activó el Click
+     */
     @Override
     public void onClick(View view)
     {
@@ -293,7 +308,7 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
                         if(Mult=='+'  || Mult == '-')//si era suma quitar caracter.
                         {
                             if(tbxX.getText().length()>0)
-                            tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
+                                tbxX.getText().delete(tbxX.getText().length() - 1, tbxX.getText().length());
                         }
                         tbxX.getText().append('-');
                     }
@@ -384,8 +399,16 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
         }
     }
 
+    /**
+     * @brief Función nativa de C++ que realiza las operaciones con paréntesis
+     * @param str Cadena de operación a realizar
+     * @return Resultado de la operación
+     */
     public native String stringFromJNI(String str);
 
+    /**
+     * @brief Resuelve operaciones sin paréntesis leyendo la cadana de la caja de texto
+     */
     void Solve(){
         if(isFirst) {
             ans = arg2;
@@ -414,12 +437,20 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
         huboOper = true;
     }
 
+    /**
+     * @brief Verifica si hay paréntesis abiertos
+     * @return true si hay paréntesis abiertos, false si no
+     */
     public boolean IsParentesis()
     {
         int cout = NumParentesis();
         return (cout>0);
     }
-    //cuenta el numero de parentesis abiertos
+
+    /**
+     * @brief Cuenta el número de paréntesis abiertos
+     * @return Número de paréntesis abiertos
+     */
     public int NumParentesis()
     {
         String str=tbxX.getText().toString();
@@ -438,12 +469,20 @@ public class SimpleCalc extends AppCompatActivity implements android.view.View.O
         return cout;
     }
 
+    /**
+     * @brief Mete la operación a realizar en la cola de operaciones
+     * @param oper Operación a realizar
+     */
     public void setOperacion(int oper){
         operacion[0] = operacion[1];
         operacion[1] = oper;
     }
 
-
+    /**
+     * @brief Determina si la cadena es un número
+     * @param str Cadena a verificar
+     * @return true si es número, false si no
+     */
     public Boolean isNumber(String str)
     {
         // String to be scanned to find the pattern.

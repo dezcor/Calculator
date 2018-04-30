@@ -5,23 +5,75 @@
 #include <vector>
 #include <exception>
 #include <regex>
+
+/**
+ * @class Calculadora
+ * @brief Recibe la cadena de operación para resolverla.
+ *
+ * Separa la cadena en tokens identificando números y operaciones, realiza las operaciones
+ * dentro y fuera de los paréntesis en orden algebráico.
+ */
+
 class Calculadora
 {
 private:
     std::vector<std::string> tokens;
     bool parentesis;
     bool isDiviAndMult;
+    /**
+     * @brief Realiza las operaciones de multiplicación y división.
+     * @return false cuando ya no hay más operaciones por hacer.
+     */
     bool MultAndDiv();
+    /**
+     * @brief Realiza las operaciones de suma y resta.
+     * @return false cuando ya no hay más operaciones por hacer.
+     */
     bool SumAndRes();
+    /**
+     * @brief Realiza las operaciones dentro de paréntesis.
+     */
     void QuitParentresis();
 
 public:
+    /**
+     * @brief Constructor para vector de strings.
+     * @param tokenP Vector de operaciones.
+     */
     Calculadora(std::vector<std::string> &tokenP);
+    /**
+     * @brief Constructor para arreglo de chars.
+     * @param str Operación a realizar.
+     */
     Calculadora(char *str);
+    /**
+     * @brief Constructor para string.
+     * @param str Operación a realizar.
+     */
     Calculadora(std::string& str);
+    /**
+     * @brief Resuelve la operación.
+     *
+     * Llama funciones recursivamente para hacer las operaciones.
+     * @return false cuando ya no hay más operaciones a realizar.
+     */
     bool reducir();
+    /**
+    * @brief Al realizar una operacion esta se recorre para reducir la operacion.
+    * @param i Indice del token.
+    * @param Operacion Operando izquierdo de la operación.
+    */
     void recorrer(int i,double Operacion);
+    /**
+     * @brief Regresa el resultado de la operación completa
+     * @return Cadena resultado.
+     */
     std::string GetResult();
+    /**
+     * @brief Separa en la operación de entrada en tokens.
+     * @param token Cadena a tokenizar.
+     * @return false, si no hay tokens.
+     */
     bool tokenizar(std::string& token);
 };
 
@@ -153,7 +205,7 @@ bool Calculadora::reducir()
 
     return false;
 }
-//al realizar una operacion esta se recorre para reducir la operacion
+
 void Calculadora::recorrer(int i,double Operacion)
 {
     char str[100];
@@ -277,19 +329,20 @@ extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_example_dezcorjm_pruebasnk_SimpleCalc_stringFromJNI(JNIEnv *env, jobject instance,
                                                              jstring str_) {
-        jboolean isTrue = (jboolean) true;
-        std::string str = env->GetStringUTFChars(str_, &isTrue);
-        try {
-            Calculadora S(str);
-            str = S.GetResult().c_str();
-        }
-        catch (std::exception e) {
-            str = e.what();
-        }
-        std::regex Num("-?[0-9]+.?[0-9]*(E(\\+|\\-)?[0-9]*)?");
-        if (!std::regex_match(str, Num)) {
-            return env->NewStringUTF("Error");
-        }
-        //*************************************
-        return env->NewStringUTF(str.c_str());
+    jboolean isTrue = (jboolean) true;
+    std::string str = env->GetStringUTFChars(str_, &isTrue);
+    try {
+        Calculadora S(str);
+        str = S.GetResult().c_str();
     }
+    catch (std::exception e) {
+        str = e.what();
+    }
+    std::regex Num("-?[0-9]+.?[0-9]*(E(\\+|\\-)?[0-9]*)?");
+    if (!std::regex_match(str, Num)) {
+        return env->NewStringUTF("Error");
+    }
+    //*************************************
+    return env->NewStringUTF(str.c_str());
+}
+
